@@ -17,17 +17,17 @@ import static javax.lang.model.element.Modifier.PRIVATE;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 
-final class ParaphraseWriter {
+final class ParaphraseWriterOld {
   private static final String PHRASE_CLASS = "Phrase";
   private static final String ABSTRACT_PHRASE_CLASS = "AbstractPhrase";
 
   private final File outputDir;
 
-  ParaphraseWriter(File outputDir) {
+  ParaphraseWriterOld(File outputDir) {
     this.outputDir = outputDir;
   }
 
-  void write(String packageName, List<Phrase> phrases) throws IOException {
+  void write(String packageName, List<PhraseOld> phrases) throws IOException {
     String filePath =
         packageName.replace('.', File.separatorChar) + File.separator + PHRASE_CLASS + ".java";
 
@@ -50,7 +50,7 @@ final class ParaphraseWriter {
       writer.beginType(PHRASE_CLASS, "class", EnumSet.of(PUBLIC, FINAL));
 
       // Factory method for each phrase.
-      for (Phrase phrase : phrases) {
+      for (PhraseOld phrase : phrases) {
         String className = classNameOf(phrase);
 
         if (phrase.documentation != null) {
@@ -62,7 +62,7 @@ final class ParaphraseWriter {
         writer.emitEmptyLine();
       }
 
-      for (Phrase phrase : phrases) {
+      for (PhraseOld phrase : phrases) {
         writePhraseClass(writer, phrase);
         writer.emitEmptyLine();
       }
@@ -80,7 +80,7 @@ final class ParaphraseWriter {
     }
   }
 
-  static void writePhraseClass(JavaWriter writer, Phrase phrase) throws IOException {
+  static void writePhraseClass(JavaWriter writer, PhraseOld phrase) throws IOException {
     String className = classNameOf(phrase);
     writer.beginType(className, "class", EnumSet.of(PUBLIC, STATIC, FINAL), ABSTRACT_PHRASE_CLASS);
 
@@ -189,7 +189,7 @@ final class ParaphraseWriter {
     writer.endType();
   }
 
-  private static String classNameOf(Phrase phrase) {
+  private static String classNameOf(PhraseOld phrase) {
     return "Phrase_" + phrase.name;
   }
 }

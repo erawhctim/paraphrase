@@ -5,7 +5,7 @@ import com.android.build.gradle.LibraryPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class ParaphrasePlugin implements Plugin<Project> {
+class ParaphrasePluginOld implements Plugin<Project> {
   @Override void apply(Project project) {
     def hasApp = project.plugins.hasPlugin AppPlugin
     def hasLib = project.plugins.hasPlugin LibraryPlugin
@@ -29,7 +29,7 @@ class ParaphrasePlugin implements Plugin<Project> {
       def buildConfig = variant.generateBuildConfig
 
       def phraseTaskName = "generate${variant.name.capitalize()}Phrase"
-      def phraseTask = project.tasks.create(phraseTaskName, GenerateParaphraseClassesTask)
+      def phraseTask = project.tasks.create(phraseTaskName, GenerateParaphraseClassesTaskOld)
 
       phraseTask.resDir = mergeTask.outputDir
       phraseTask.outputDir = outDir

@@ -8,7 +8,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 
-class GenerateParaphraseClassesTask extends DefaultTask {
+class GenerateParaphraseClassesTaskOld extends DefaultTask {
   @Input String packageName
   @InputDirectory File resDir
 
@@ -18,10 +18,10 @@ class GenerateParaphraseClassesTask extends DefaultTask {
     inputs.outOfDate { change ->
       def items = ValueResourceParser.parse(change.file)
           .findAll { it.type == ResourceType.STRING }
-          .findAll { Phrase.isPhrase it.value.firstChild.nodeValue }
-          .collect { Phrase.from it.name, it.value.firstChild.nodeValue }
+          .findAll { PhraseOld.isPhrase it.value.firstChild.nodeValue }
+          .collect { PhraseOld.from it.name, it.value.firstChild.nodeValue }
 
-      new ParaphraseWriter(outputDir).write(packageName, items)
+      new ParaphraseWriterOld(outputDir).write(packageName, items)
     }
   }
 }

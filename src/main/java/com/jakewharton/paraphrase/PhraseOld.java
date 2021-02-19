@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-final class Phrase {
+final class PhraseOld {
   private static final Pattern PHRASE = Pattern.compile("\\{([a-z_]+)\\}");
 
   static boolean isPhrase(String string) {
     return PHRASE.matcher(string).find();
   }
 
-  static Phrase from(String name, String string) {
-    return new Phrase(name, null /* TODO */, string, tokensFrom(string));
+  static PhraseOld from(String name, String string) {
+    return new PhraseOld(name, null /* TODO */, string, tokensFrom(string));
   }
 
   static List<String> tokensFrom(String string) {
@@ -33,7 +33,7 @@ final class Phrase {
   final String string;
   final List<String> tokens;
 
-  Phrase(String name, String documentation, String string, List<String> tokens) {
+  PhraseOld(String name, String documentation, String string, List<String> tokens) {
     this.name = name;
     this.documentation = documentation;
     this.string = string;
