@@ -1,69 +1,81 @@
 buildscript {
   repositories {
     mavenCentral()
-  }
-  dependencies {
-    classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.2'
+    google()
   }
 }
 
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'nexus'
+plugins {
+  id 'groovy'
+  id 'org.jetbrains.kotlin.jvm' version '1.4.30'
+  id 'maven'
+  id "java-gradle-plugin"
+  id "com.gradle.plugin-publish" version '0.13.0'
+}
 
 dependencies {
   repositories {
     mavenCentral()
+    google()
   }
 
-  compile gradleApi()
-  compile localGroovy()
-  compile 'com.android.tools.build:gradle:0.9.+'
-  compile 'com.squareup:javawriter:2.4.0'
-  compile 'com.google.guava:guava:16.0.1'
+  compileOnly gradleApi()
+  implementation localGroovy()
+  implementation 'com.android.tools.build:gradle:4.0.1'
+  implementation 'com.squareup:javawriter:2.4.0'
+  implementation 'com.google.guava:guava:16.0.1'
 }
 
 group = 'com.jakewharton.paraphrase'
 version = '1.0.0-SNAPSHOT'
 
-install {
-  repositories.mavenInstaller {
-    pom.artifactId = 'paraphrase'
-  }
-}
-uploadArchives {
-  repositories.mavenDeployer {
-    pom.artifactId = 'paraphrase'
-  }
-}
-
-modifyPom {
-  project {
-    name 'Paraphrase'
-    description "Gradle plugin which generates compile-safe format string builders."
-    url 'https://github.com/JakeWharton/paraphrase'
-    inceptionYear '2014'
-
-    scm {
-      url 'https://github.com/JakeWharton/paraphrase'
-      connection 'scm:git:git://github.com/JakeWharton/paraphrase.git'
-      developerConnection 'scm:git:ssh://git@github.com/JakeWharton/paraphrase.git'
-    }
-
-    licenses {
-      license {
-        name 'The Apache Software License, Version 2.0'
-        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-        distribution 'repo'
-      }
-    }
-
-    developers {
-      developer {
-        id 'jakewharton'
-        name 'Jake Wharton'
-        email 'jakewharton@gmail.com'
-      }
+gradlePlugin {
+  plugins {
+    placeholdersValidator {
+      id = 'com.jakewharton.paraphrase'
+      implementationClass = 'com.jakewharton.paraphrase.ParaphrasePlugin'
     }
   }
 }
+
+//install {
+//  repositories.mavenInstaller {
+//    pom.artifactId = 'paraphrase'
+//  }
+//}
+//uploadArchives {
+//  repositories.mavenDeployer {
+//    pom.artifactId = 'paraphrase'
+//  }
+//}
+//
+//modifyPom {
+//  project {
+//    name 'Paraphrase'
+//    description "Gradle plugin which generates compile-safe format string builders."
+//    url 'https://github.com/JakeWharton/paraphrase'
+//    inceptionYear '2014'
+//
+//    scm {
+//      url 'https://github.com/JakeWharton/paraphrase'
+//      connection 'scm:git:git://github.com/JakeWharton/paraphrase.git'
+//      developerConnection 'scm:git:ssh://git@github.com/JakeWharton/paraphrase.git'
+//    }
+//
+//    licenses {
+//      license {
+//        name 'The Apache Software License, Version 2.0'
+//        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//        distribution 'repo'
+//      }
+//    }
+//
+//    developers {
+//      developer {
+//        id 'jakewharton'
+//        name 'Jake Wharton'
+//        email 'jakewharton@gmail.com'
+//      }
+//    }
+//  }
+//}
