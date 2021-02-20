@@ -1,6 +1,5 @@
 package org.gradle.testkit.functional.internal.classpath;
 
-import org.gradle.api.Transformer;
 import org.gradle.internal.UncheckedException;
 import org.gradle.internal.classloader.ClasspathUtil;
 import org.gradle.testkit.functional.internal.GradleHandle;
@@ -41,15 +40,13 @@ public class ClasspathInjectingGradleHandleFactory implements GradleHandleFactor
   }
 
   private List<File> getClasspathAsFiles() {
-    List<URL> classpathUrls = ClasspathUtil.getClasspath(classLoader);
+    List<URL> classpathUrls = ClasspathUtil.getClasspath(classLoader).getAsURLs();
     return CollectionUtils.collect(classpathUrls, new ArrayList<File>(classpathUrls.size()),
-        new Transformer<File, URL>() {
-          public File transform(URL url) {
-            try {
-              return new File(url.toURI());
-            } catch (URISyntaxException e) {
-              throw UncheckedException.throwAsUncheckedException(e);
-            }
+        url -> {
+          try {
+            return new File(url.toURI());
+          } catch (URISyntaxException e) {
+            throw UncheckedException.throwAsUncheckedException(e);
           }
         });
   }

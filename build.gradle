@@ -1,7 +1,7 @@
 buildscript {
   repositories {
-    mavenCentral()
     google()
+    mavenCentral()
   }
 }
 
@@ -15,15 +15,21 @@ plugins {
 
 dependencies {
   repositories {
-    mavenCentral()
     google()
+    mavenCentral()
+    maven {url 'https://plugins.gradle.org/m2/' }
   }
 
   compileOnly gradleApi()
   implementation localGroovy()
-  implementation 'com.android.tools.build:gradle:4.0.1'
+  implementation 'com.android.tools.build:gradle:3.6.1'
+  implementation 'com.android.tools:sdk-common:26.6.1'
+  implementation 'com.android.tools:sdk-common:27.0.2'
   implementation 'com.squareup:javawriter:2.4.0'
   implementation 'com.google.guava:guava:16.0.1'
+
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'com.google.truth:truth:1.0.1'
 }
 
 group = 'com.jakewharton.paraphrase'

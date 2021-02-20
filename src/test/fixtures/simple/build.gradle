@@ -3,7 +3,15 @@ import com.jakewharton.paraphrase.ParaphrasePlugin
 apply plugin: 'android'
 apply plugin: ParaphrasePlugin
 
+dependencies {
+  repositories {
+    google()
+    mavenCentral()
+    maven {url 'https://plugins.gradle.org/m2/' }
+  }
+}
+
 android {
-  compileSdkVersion 19
-  buildToolsVersion '19.0.1'
+  compileSdkVersion 26
+  buildToolsVersion '26.6.1'
 }
