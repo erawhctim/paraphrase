@@ -1,17 +1,27 @@
-import com.jakewharton.paraphrase.ParaphrasePlugin
-
-apply plugin: 'android'
-apply plugin: ParaphrasePlugin
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.paraphrase'
 
 dependencies {
   repositories {
     google()
     mavenCentral()
-    maven {url 'https://plugins.gradle.org/m2/' }
+    maven { url 'https://plugins.gradle.org/m2/' }
   }
 }
 
 android {
   compileSdkVersion 26
   buildToolsVersion '26.6.1'
+}
+
+buildscript {
+
+  repositories {
+    google()
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:4.0.0'
+  }
 }

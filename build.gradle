@@ -10,6 +10,7 @@ plugins {
   id 'org.jetbrains.kotlin.jvm' version '1.4.30'
   id 'maven'
   id "java-gradle-plugin"
+  id "org.jetbrains.gradle.plugin.idea-ext" version "1.0"
   id "com.gradle.plugin-publish" version '0.13.0'
 }
 
@@ -30,6 +31,7 @@ dependencies {
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'com.google.truth:truth:1.0.1'
+  testImplementation gradleTestKit()
 }
 
 group = 'com.jakewharton.paraphrase'
@@ -43,6 +45,35 @@ gradlePlugin {
     }
   }
 }
+
+/*
+ * Extra configuration needed to enable the text fixtures classpath to see the plugin's classpath
+ *
+ * See:
+ * https://stackoverflow.com/a/54393454/1452741
+ */
+task fixIdeaPluginClasspath {
+  doFirst {
+    configure(tasks.pluginUnderTestMetadata) {
+      def ideaClassesPath = project.buildDir.toPath().resolveSibling("out").resolve("production")
+      def newClasspath = pluginClasspath as List
+      newClasspath.add(0, ideaClassesPath)
+      pluginClasspath.setFrom(newClasspath)
+    }
+  }
+}
+pluginUnderTestMetadata.mustRunAfter(fixIdeaPluginClasspath)
+
+idea.project.settings {
+  taskTriggers {
+    beforeBuild fixIdeaPluginClasspath, pluginUnderTestMetadata
+  }
+}
+
+tasks.withType(PluginUnderTestMetadata).configureEach {
+  pluginClasspath.from(configurations.compileOnly)
+}
+
 
 //install {
 //  repositories.mavenInstaller {
