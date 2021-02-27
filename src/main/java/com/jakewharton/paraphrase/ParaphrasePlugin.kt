@@ -18,7 +18,7 @@ class ParaphrasePlugin: Plugin<Project> {
             project.logger.debug("Found Android app plugin")
 
             val appExtension = project.the<AppExtension>()
-            appExtension.applicationVariants.all { variant ->
+            appExtension.applicationVariants.forEach { variant ->
                 project.logger.debug("AppExtension variant '$variant'")
             }
         }
@@ -26,12 +26,12 @@ class ParaphrasePlugin: Plugin<Project> {
             project.logger.debug("Found Android library plugin")
 
             val appExtension = project.the<LibraryExtension>()
-            appExtension.libraryVariants.all { variant ->
+            appExtension.libraryVariants.forEach { variant ->
                 project.logger.debug("LibraryExtension variant '$variant'")
             }
         }
 
-        project.plugins.all {
+        project.plugins.forEach {
             when (it) {
                 is AppPlugin -> {
                     val appExtension = project.extensions.getByType(AppExtension::class.java)
@@ -87,9 +87,9 @@ class ParaphrasePlugin: Plugin<Project> {
 
         val phraseTaskName = "generate${variant.name.capitalize()}Phrase"
 
-        val phraseTask = project.tasks.create(phraseTaskName, GenerateParaphraseClassesTask::class.java) { task ->
-            task.resDir.set(mergeTask.outputDir)
-            task.outputDir.set(outDir)
+        val phraseTask = project.tasks.create(phraseTaskName, GenerateParaphraseClassesTask::class.java) {
+            resDir.set(mergeTask.outputDir)
+            outputDir.set(outDir)
         }
 
         buildConfig.doLast {

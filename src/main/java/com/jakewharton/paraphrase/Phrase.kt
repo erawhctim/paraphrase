@@ -7,7 +7,7 @@ data class Phrase(
     val name: String,
     val documentation: String?,
     val string: String,
-    val tokens: List<String>,
+    val tokens: List<String>
 ) {
     companion object {
         private val PHRASE = Pattern.compile("\\{([a-z_]+)\\}")
