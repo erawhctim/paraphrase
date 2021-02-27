@@ -3,6 +3,7 @@ package com.jakewharton.paraphrase
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.gradle.testkit.runner.GradleRunner
+import org.gradle.util.*
 import org.junit.Test
 import java.io.File
 import java.lang.management.ManagementFactory
@@ -15,7 +16,7 @@ class FixtureIntegrationTest {
     fun `new simple fixture compiles successfully`() {
 //        val fixture = File("src/test/fixtures/simple")
         val fixture = File("src/test/fixtures/new")
-        
+
         assertWithMessage("Fixture 'simple' does not exist")
             .that(fixture.exists())
             .isTrue()
@@ -26,8 +27,9 @@ class FixtureIntegrationTest {
         
         val result = GradleRunner.create()
             .apply {
-                withArguments(listOf("clean", "check", "--stacktrace"))
+                withArguments(listOf("clean", "check"))
                 withProjectDir(fixture)
+                withGradleVersion(GradleVersion.current().version)
                 withPluginClasspath()
                 forwardOutput()
                 // Enables debug mode when `--debug-jvm` is passed to Gradle
